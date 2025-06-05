@@ -1,0 +1,8 @@
+keyboard==0.13.5
+pyperclip==1.8.2
+openai==0.27.0
+pynput==1.7.6
+pyinstaller==6.3.0
+pystray==0.19.5
+pillow==10.3.0
+setuptools==70.3.0 
