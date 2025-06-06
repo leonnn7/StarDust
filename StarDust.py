@@ -1,3 +1,10 @@
+"""StarDust Hauptprogramm.
+
+Dieser kleine Helfer lauscht auf Hotkeys, sendet eingegebene Fragen an die
+OpenAI‑API und kopiert die Antwort direkt in die Zwischenablage. Die Datei
+enthält das komplette Tray‑ und Hotkey‑Handling.
+"""
+
 import keyboard
 import pyperclip
 import openai
@@ -73,6 +80,16 @@ last_response = ""
 current_write_index = 0
 
 def get_ai_response(prompt, context=None, use_context=False):
+    """Sende die Eingabe an die OpenAI-API und liefere die Antwort zurück.
+
+    Args:
+        prompt: Die Benutzerfrage.
+        context: Optionaler Kontext aus der Zwischenablage.
+        use_context: Wenn True wird der Kontext dem Prompt hinzugefügt.
+
+    Returns:
+        String mit der Antwort der KI oder einer Fehlermeldung.
+    """
     try:
         # Prüfe ob es eine mathematische Berechnung ist
         if any(op in prompt for op in ['+', '-', '*', '/']):
@@ -120,6 +137,7 @@ def get_ai_response(prompt, context=None, use_context=False):
         return "Fehler bei der API-Anfrage"
 
 def set_cursor_style(style):
+    """Ändert das Aussehen des Mauszeigers je nach Programmzustand."""
     try:
         if style == "recording":
             # Roter Cursor
@@ -135,6 +153,7 @@ def set_cursor_style(style):
         logging.error(f"Fehler beim Ändern des Cursors: {str(e)}")
 
 def on_key_event(event):
+    """Verarbeitet Tastatureingaben während des Programms."""
     global is_listening, is_writing, current_text, current_write_index, last_response
     if event.event_type == keyboard.KEY_DOWN:
         if is_writing:
@@ -163,6 +182,7 @@ def on_key_event(event):
             logging.info(f"Text aktualisiert: {current_text}")
 
 def start_listening():
+    """Startet den Aufnahmemodus für Benutzereingaben."""
     global is_listening, current_text
     is_listening = True
     current_text = ""
@@ -170,6 +190,7 @@ def start_listening():
     logging.info("=== Aufnahmemodus gestartet ===")
 
 def stop_listening():
+    """Beendet den Aufnahmemodus und schickt die Anfrage an die KI."""
     global is_listening, last_response
     if is_listening:
         is_listening = False
@@ -190,6 +211,7 @@ def stop_listening():
             logging.info(f"Antwort: {response[:50]}...")
 
 def toggle_write_mode():
+    """Schaltet den Schreibmodus zum automatischen Tippen um."""
     global is_writing, current_write_index
     if not is_writing and last_response:
         is_writing = True
@@ -202,6 +224,7 @@ def toggle_write_mode():
         logging.info("=== Write Mode beendet ===")
 
 def cancel_listening():
+    """Bricht Aufnahme- oder Schreibmodus sofort ab."""
     global is_listening, is_writing
     if is_listening or is_writing:
         is_listening = False
@@ -210,6 +233,7 @@ def cancel_listening():
         logging.info("=== Modus abgebrochen ===")
 
 def create_tray_icon():
+    """Erzeugt das System-Tray-Icon mit Beenden-Menü."""
     def on_exit(icon, item):
         icon.stop()
         os._exit(0)
@@ -224,6 +248,7 @@ def create_tray_icon():
     icon.run_detached()
 
 def main():
+    """Initialisiert Hotkeys und startet die Ereignisschleife."""
     create_tray_icon()
     try:
         # Registriere die Hotkeys
@@ -242,4 +267,4 @@ def main():
         set_cursor_style("normal")
 
 if __name__ == "__main__":
-    main() 
+    main()
