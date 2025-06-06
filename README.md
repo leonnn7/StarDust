@@ -23,7 +23,9 @@ StarDust ist ein leistungsstarker KI-Assistent, der direkt in Ihrem System läuf
 2. Geben Sie Ihre Frage ein
 3. Drücken Sie `Ctrl+Alt+X` um die Aufnahme zu beenden
 4. Die Antwort wird automatisch in die Zwischenablage kopiert
-5. Drücken Sie `Ctrl+Alt+V` um die Antwort einzufügen
+5. Sie haben zwei Möglichkeiten, die Antwort einzufügen:
+   - **Mit `Ctrl+V`**: Die komplette Antwort wird sofort eingefügt (Paste)
+   - **Mit `Ctrl+Alt+V`**: Die Antwort wird Zeichen für Zeichen wie getippt eingefügt (z.B. für Programme, die kein direktes Einfügen erlauben)
 
 ### Hotkeys
 
